@@ -40,3 +40,24 @@ scaler = MinMaxScaler()
 scaler.fit(covid_data.values.T)
 covid_data = scaler.transform(covid_data.values.T)
 
+"""### Dividir em X e y
+* Vamos configurar nosso X e y de tal forma que X[n] conterá os casos para uma certa quantidade de dias anteriores (time_steps) e y[n] conterá a leitura para o dia seguinte.
+* Dessa forma, nosso modelo será treinado para prever o número de casos em um determinado dia com base na tendência do número de casos no número de dias de time_steps anterior.
+* Após alguns testes, descobri que usar os dados dos 30 dias anteriores permitiu que nosso modelo fizesse previsões bastante precisas no 31º dia.
+"""
+
+X, y = [], []
+time_steps = 30 #Quantidade de dias anteriores
+
+for i in range(len(covid_data) - time_steps):
+    x = covid_data[i:(i+time_steps), 0]
+    X.append(x)
+    y.append(covid_data[i+time_steps, 0])
+
+X = np.array(X)
+y = np.array(y)
+
+"""# Particionamento de dados
+* Devemos manter o conjunto de dados em ordem, pois estamos analisando uma linha do tempo cronológica dos casos de Corona, para que possamos usar os primeiros 80% dos dados como nosso treinamento e nossos testes serão os 20% restantes.
+* Também precisamos remodelar as partições X[n] para que nosso modelo possa processá-las corretamente.
+"""
