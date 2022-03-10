@@ -23,8 +23,8 @@ def main(time_steps = 30):
     #print(covid_data)
 
     # Dados de pré-processamento
-    # Podemos descartar as colunas para 'Província/Estado', 'País/Região', 'Lat' e 'Long', SE OS  dados são fosse, 
-    # apenas para os EUA e essas colunas não são necessárias para previsão.
+    # Podemos descartar as colunas para 'Província/Estado', 'País/Região', 'Lat' e 'Long', 
+    # os dados são apenas para o Brasil e essas colunas não são necessárias para previsão.
 
     covid_data = covid_data.drop(columns=['Province/State', 'Country/Region', 'Lat', 'Long'])
 
@@ -135,7 +135,7 @@ def main(time_steps = 30):
     plt.show()
 
 
-    """# Previsões do modelo de plotagem
+    """# Previsões do modelo
     * Para ver a precisão do nosso modelo, primeiro o usamos para prever a saída de nossos dados X_test.
     * Em seguida, redimensionamos nossos dados de previsão e y_test de volta aos limites originais do conjunto de dados para plotar com precisão seus valores.
     * Por fim, podemos traçar os casos reais de Covid em comparação com nossos casos previstos de Covid para ver a precisão geral do nosso modelo.
