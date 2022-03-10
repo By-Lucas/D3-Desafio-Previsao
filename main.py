@@ -61,3 +61,41 @@ y = np.array(y)
 * Devemos manter o conjunto de dados em ordem, pois estamos analisando uma linha do tempo cronológica dos casos de Corona, para que possamos usar os primeiros 80% dos dados como nosso treinamento e nossos testes serão os 20% restantes.
 * Também precisamos remodelar as partições X[n] para que nosso modelo possa processá-las corretamente.
 """
+
+
+split = int(len(X) * 0.8)
+
+X_train = X[:split]
+X_test = X[split:]
+y_train = y[:split]
+y_test = y[split:]
+
+X_train = np.reshape(X_train, (X_train.shape[0], 1, X_train.shape[1]))
+X_test = np.reshape(X_test, (X_test.shape[0], 1, X_test.shape[1]))
+
+"""# Arquitetura do modelo
+* Criamos nosso modelo usando uma arquitetura de rede neural recorrente.
+* O modelo consiste em uma camada de entrada, seguida por três camadas LSTM que utilizam dropout para evitar que nosso modelo se ajuste demais.
+* A saída é uma camada Densa com um único neurônio usando a função de ativação ReLU, pois estamos prevendo o número de casos Corona, então nossa saída será um número positivo (0, $\infty$).
+"""
+
+model = Sequential()
+model.add(Input(shape=(1, time_steps)))
+model.add(LSTM(48, return_sequences=True))
+model.add(Dropout(0.4))
+model.add(LSTM(48, return_sequences=True))
+model.add(Dropout(0.2))
+model.add(LSTM(48))
+model.add(Dropout(0.2))
+model.add(Dense(1, activation='relu'))
+
+model.compile(loss = 'mean_squared_error',
+              optimizer = RMSprop(),
+              metrics = ['mean_squared_error'])
+
+model.summary()
+
+"""# Treine o modelo
+* Agora podemos treinar nosso modelo usando 20% dos dados de treinamento como nosso conjunto de validação.
+* O modelo usará o ReduceLROnPlateau para diminuir nossa taxa de aprendizado sempre que nossos platôs MSE de validação por três épocas para melhor precisão.
+"""
