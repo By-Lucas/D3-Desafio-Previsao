@@ -128,7 +128,7 @@ def main(time_steps = 30):
     plt.title('Modelo de percas')
     plt.ylabel('Percas')
     plt.xlabel('Épocas')
-    plt.legend(['trem', 'val'])
+    plt.legend(['Treinamento', 'valor'])
     plt.show()
 
 
@@ -137,7 +137,7 @@ def main(time_steps = 30):
     plt.title('Modelo de erro')
     plt.ylabel('Erro quadrático médio')
     plt.xlabel('Épocas')
-    plt.legend(['trem', 'val'])
+    plt.legend(['Treinamento', 'valor'])
     plt.show()
 
 
