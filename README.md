@@ -5,7 +5,7 @@
     <img src="gif.gif" width=600px>
 </p>
 
-# Todas as informações.
+# Todas as informações
 ## Carregar dados
 * Busque dados do arquivo csv e coloque-os em um Pandas DataFrame.
 import pandas as pd
@@ -57,15 +57,11 @@ y = np.array(y)
 split = int(len(X) * 0.8)
 
 X_train = X[:split]
-
 X_test = X[split:]
-
 y_train = y[:split]
-
 y_test = y[split:]
 
 X_train = np.reshape(X_train, (X_train.shape[0], 1, X_train.shape[1]))
-
 X_test = np.reshape(X_test, (X_test.shape[0], 1, X_test.shape[1]))
 
 ## Arquitetura do modelo
@@ -75,31 +71,19 @@ X_test = np.reshape(X_test, (X_test.shape[0], 1, X_test.shape[1]))
 
 
 import tensorflow as tf
-
 from tensorflow.keras.layers import Dense, Dropout, Input, LSTM
-
 from tensorflow.keras.models import Model
-
 from tensorflow.keras.models import Sequential
-
 from tensorflow.keras.optimizers import RMSprop
 
 model = Sequential()
-
 model.add(Input(shape=(1, time_steps)))
-
 model.add(LSTM(48, return_sequences=True))
-
 model.add(Dropout(0.4))
-
 model.add(LSTM(48, return_sequences=True))
-
 model.add(Dropout(0.2))
-
 model.add(LSTM(48))
-
 model.add(Dropout(0.2))
-
 model.add(Dense(1, activation='relu'))
 
 
@@ -118,7 +102,6 @@ model.summary()
 from keras.callbacks import ReduceLROnPlateau
 
 batchsize = 100
-
 epochs =  100
 
 learning_rate_reduction = ReduceLROnPlateau(monitor='val_mean_squared_error', 
@@ -140,32 +123,19 @@ history = model.fit(X_train,
 import matplotlib.pyplot as plt
 
 plt.plot(history.history['loss'])
-
 plt.plot(history.history['val_loss'])
-
 plt.title('Modelo de percas')
-
 plt.ylabel('Percas')
-
 plt.xlabel('Épocas')
-
 plt.legend(['Treino', 'Valor'])
-
 plt.show()
 
-
 plt.plot(history.history['mean_squared_error'])
-
 plt.plot(history.history['val_mean_squared_error'])
-
 plt.title('Erro de modelo')
-
 plt.ylabel('Erro médio')
-
 plt.xlabel('Épocas')
-
 plt.legend(['Treino', 'Valor'])
-
 plt.show()
 
 # Previsões do modelo
@@ -175,20 +145,12 @@ plt.show()
 
 
 y_pred = model.predict(X_test)
-
 y_pred = scaler.inverse_transform(y_pred)
-
 y_test = scaler.inverse_transform(y_test.reshape(-1,1))
 
-
 plt.plot(y_pred, color='red')
-
 plt.plot(y_test, color='blue')
-
 plt.title('Casos de Covid reais x previstos (dados de teste)')
-
 plt.ylabel('Número de casos')
-
 plt.xlabel('Dia')
-
 plt.legend(['Previsto', 'Atual'])
