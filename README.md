@@ -164,3 +164,6 @@ plt.ylabel('Número de casos')
 plt.xlabel('Dia')
 plt.legend(['Previsto', 'Atual'])
 ~~~
+
+# Publicação
+## Seria ideal utilizar MVC - Model Views Controller utilizado pelo Flask, mas pode ser utilizado com MTV do Django, atualmente o framework web mais completo do Python.
